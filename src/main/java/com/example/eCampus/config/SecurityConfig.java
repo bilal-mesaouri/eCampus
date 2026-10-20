@@ -29,7 +29,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/login", "/register"))
+            .csrf(csrf -> csrf.ignoringRequestMatchers(
+                "/login", "/register", "/learner/login", "/learner/register", "/admin/login"))
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -41,7 +42,10 @@ public class SecurityConfig {
             }))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/register").permitAll()
+                .requestMatchers("/login", "/register", "/learner/login", "/learner/register",
+                    "/admin/login", "/csrf").permitAll()
+                .requestMatchers("/admin/register").hasAuthority("ADMIN_LEVEL_1")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             );
 

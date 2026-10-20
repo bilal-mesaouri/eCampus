@@ -1,19 +1,12 @@
 package com.example.eCampus.Activity;
 
+import com.example.eCampus.LearningObject.LearningObject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
-public class Activity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private String description;
+public class Activity extends LearningObject {
     @Enumerated(EnumType.STRING)
     private ActivityTypes type;
     private int points;
@@ -27,36 +20,10 @@ public class Activity {
     }
 
     public Activity(Long id, String title, String description, ActivityTypes type, int points, int duration) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
+        super(id, title, description);
         this.type = type;
         this.points = points;
         this.duration = duration;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public ActivityTypes getType() {
@@ -81,5 +48,10 @@ public class Activity {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public Activity duplicate() {
+        return new Activity(null, getTitle(), getDescription(), type, points, duration);
     }
 }

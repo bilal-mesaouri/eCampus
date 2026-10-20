@@ -7,7 +7,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +14,18 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
+
+    private final UserDetailsService userDetailsService;
+
+    public JwtService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -68,7 +74,7 @@ public class JwtService {
 
     public Authentication getAuthentication(String token) {
         String username = extractUsername(token);
-        User principal = new User(username, "", Collections.emptyList());
+        UserDetails principal = userDetailsService.loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
     }
 
