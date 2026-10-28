@@ -80,6 +80,8 @@ public class Module extends LearningObject {
     @Override
     public Module duplicate() {
         Module duplicate = new Module(null, getTitle(), getDescription(), threeshold);
+        duplicate.setStartDate(getStartDate());
+        duplicate.setEndDate(getEndDate());
         duplicate.setActivities(
             activities == null ? new ArrayList<>() : new ArrayList<>(activities)
         );

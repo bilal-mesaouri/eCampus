@@ -52,6 +52,9 @@ public class Activity extends LearningObject {
 
     @Override
     public Activity duplicate() {
-        return new Activity(null, getTitle(), getDescription(), type, points, duration);
+        Activity duplicate = new Activity(null, getTitle(), getDescription(), type, points, duration);
+        duplicate.setStartDate(getStartDate());
+        duplicate.setEndDate(getEndDate());
+        return duplicate;
     }
 }

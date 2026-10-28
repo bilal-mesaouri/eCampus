@@ -27,6 +27,11 @@ public class ModuleController {
         return moduleService.getModuleById(id).orElse(null);
     }
 
+    @PostMapping("/{moduleId}/activities/{activityId}")
+    public Module addActivityToModule(@PathVariable Long moduleId, @PathVariable Long activityId) {
+        return moduleService.addActivityToModule(moduleId, activityId);
+    }
+
     @PostMapping
     public Module createModule(@RequestBody Module module) {
         return moduleService.createModule(module);

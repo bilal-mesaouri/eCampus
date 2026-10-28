@@ -1,5 +1,6 @@
 package com.example.eCampus.LearningObject;
 
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,8 @@ public abstract class LearningObject {
     private Long id;
     private String title;
     private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     protected LearningObject() {
     }
@@ -48,6 +51,22 @@ public abstract class LearningObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public abstract LearningObject duplicate();

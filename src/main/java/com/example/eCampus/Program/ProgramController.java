@@ -32,6 +32,11 @@ public class ProgramController {
         return programService.getProgramById(id);
     }
 
+    @PostMapping("/{programId}/modules/{moduleId}")
+    public Program addModuleToProgram(@PathVariable Long programId, @PathVariable Long moduleId) {
+        return programService.addModuleToProgram(programId, moduleId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Program createProgram(@RequestBody Program program) {
