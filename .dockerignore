@@ -1,0 +1,7 @@
+.git
+.github
+.vscode
+.env
+.env.*
+target
+src/main/resources/application-local.properties
