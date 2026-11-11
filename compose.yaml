@@ -14,7 +14,9 @@ services:
       retries: 10
 
   ecampus:
-    build: .
+    build:
+      context: .
+      dockerfile: services/ecampus-service/Dockerfile
     image: ecampus:local
     depends_on:
       db:
@@ -27,6 +29,14 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-ecampus}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+
+  notifications:
+    build:
+      context: .
+      dockerfile: services/notification-service/Dockerfile
+    image: ecampus-notifications:local
+    ports:
+      - "8081:8081"
 
 volumes:
   postgres-data:

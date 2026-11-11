@@ -4,4 +4,5 @@
 .env
 .env.*
 target
-src/main/resources/application-local.properties
+**/target
+**/src/main/resources/application-local.properties

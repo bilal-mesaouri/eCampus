@@ -23,17 +23,18 @@ pipeline {
             }
         }
 
-        stage('Build Container') {
+        stage('Build Containers') {
             steps {
-                sh 'docker build --tag "ecampus:${BUILD_NUMBER}" .'
+                sh 'docker build --file services/ecampus-service/Dockerfile --tag "ecampus:${BUILD_NUMBER}" .'
+                sh 'docker build --file services/notification-service/Dockerfile --tag "ecampus-notifications:${BUILD_NUMBER}" .'
             }
         }
     }
 
     post {
         always {
-            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
-            archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true, fingerprint: true
+            junit testResults: 'services/*/target/surefire-reports/*.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'services/*/target/*.jar', allowEmptyArchive: true, fingerprint: true
             sh 'docker compose -p "ecampus-ci-${BUILD_NUMBER}" down -v --remove-orphans || true'
         }
     }
